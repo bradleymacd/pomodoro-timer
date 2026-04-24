@@ -259,7 +259,24 @@ settingsModal.addEventListener('click', (e) => {
 });
 
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && !settingsModal.hasAttribute('hidden')) closeSettings();
+  const tag = document.activeElement.tagName;
+  const typingInField = tag === 'INPUT' || tag === 'TEXTAREA';
+
+  if (e.key === 'Escape' && !settingsModal.hasAttribute('hidden')) {
+    closeSettings();
+    return;
+  }
+
+  if (typingInField) return;
+
+  if (e.key === ' ') {
+    e.preventDefault(); // stop the page from scrolling on Space
+    if (isRunning) { pause(); } else { start(); }
+  }
+
+  if (e.key === 'r' || e.key === 'R') {
+    reset();
+  }
 });
 
 function renderTasks() {
