@@ -1,7 +1,7 @@
-const WORK_DURATION = 25 * 60;
-const BREAK_DURATION = 5 * 60;
+let workDuration = 25 * 60;
+let breakDuration = 5 * 60;
 
-let timeRemaining = WORK_DURATION;
+let timeRemaining = workDuration;
 let isRunning = false;
 let currentMode = 'work';
 let intervalId = null;
@@ -11,6 +11,8 @@ const modeIndicator = document.getElementById('mode-indicator');
 const timeDisplay = document.getElementById('time-display');
 const startPauseBtn = document.getElementById('start-pause-btn');
 const resetBtn = document.getElementById('reset-btn');
+const workInput = document.getElementById('work-duration-input');
+const breakInput = document.getElementById('break-duration-input');
 
 function formatTime(totalSeconds) {
   const minutes = Math.floor(totalSeconds / 60);
@@ -19,7 +21,7 @@ function formatTime(totalSeconds) {
 }
 
 function durationFor(mode) {
-  return mode === 'work' ? WORK_DURATION : BREAK_DURATION;
+  return mode === 'work' ? workDuration : breakDuration;
 }
 
 function render() {
@@ -73,5 +75,20 @@ startPauseBtn.addEventListener('click', () => {
 });
 
 resetBtn.addEventListener('click', reset);
+
+function applySettings() {
+  const workMinutes = Number(workInput.value);
+  const breakMinutes = Number(breakInput.value);
+  if (workMinutes >= 1 && workMinutes <= 60) workDuration = workMinutes * 60;
+  if (breakMinutes >= 1 && breakMinutes <= 60) breakDuration = breakMinutes * 60;
+
+  if (!isRunning) {
+    timeRemaining = durationFor(currentMode);
+    render();
+  }
+}
+
+workInput.addEventListener('change', applySettings);
+breakInput.addEventListener('change', applySettings);
 
 render();
