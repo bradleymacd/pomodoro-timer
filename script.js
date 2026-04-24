@@ -23,7 +23,8 @@ const taskInput = document.getElementById('task-input');
 const addTaskBtn = document.getElementById('add-task-btn');
 const taskList = document.getElementById('task-list');
 const settingsToggleBtn = document.getElementById('settings-toggle-btn');
-const settingsPanel = document.querySelector('.settings-panel');
+const settingsModal = document.getElementById('settings-modal');
+const settingsCloseBtn = document.getElementById('settings-close-btn');
 
 let tasks = [];
 
@@ -161,10 +162,29 @@ tabWork.addEventListener('click', () => setMode('work'));
 tabBreak.addEventListener('click', () => setMode('break'));
 tabLongBreak.addEventListener('click', () => setMode('long-break'));
 
-settingsToggleBtn.addEventListener('click', () => {
-  const isOpen = settingsPanel.classList.toggle('is-open');
-  settingsToggleBtn.classList.toggle('is-active', isOpen);
-  settingsToggleBtn.setAttribute('aria-expanded', isOpen);
+function openSettings() {
+  settingsModal.removeAttribute('hidden');
+  settingsToggleBtn.classList.add('is-active');
+  settingsToggleBtn.setAttribute('aria-expanded', 'true');
+  settingsCloseBtn.focus();
+}
+
+function closeSettings() {
+  settingsModal.setAttribute('hidden', '');
+  settingsToggleBtn.classList.remove('is-active');
+  settingsToggleBtn.setAttribute('aria-expanded', 'false');
+  settingsToggleBtn.focus();
+}
+
+settingsToggleBtn.addEventListener('click', openSettings);
+settingsCloseBtn.addEventListener('click', closeSettings);
+
+settingsModal.addEventListener('click', (e) => {
+  if (e.target === settingsModal) closeSettings();
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && !settingsModal.hasAttribute('hidden')) closeSettings();
 });
 
 function renderTasks() {
