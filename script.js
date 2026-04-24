@@ -206,6 +206,7 @@ function validateInput(input, errorEl, min, max) {
   const valid = value >= min && value <= max;
   input.classList.toggle('is-invalid', !valid);
   errorEl.hidden = valid;
+  if (valid) input.value = value; // strip leading zeros
   return valid;
 }
 
