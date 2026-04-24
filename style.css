@@ -151,15 +151,46 @@ body {
   background-color: rgba(255, 255, 255, 0.04);
 }
 
+/* Icon button (settings toggle) */
+.btn-icon {
+  background: none;
+  border: 1px solid transparent;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-lg);
+  padding: var(--space-sm);
+  border-radius: var(--radius-md);
+  line-height: 1;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.btn-icon:hover {
+  color: var(--color-text);
+  border-color: var(--color-text-muted);
+}
+
+.btn-icon.is-active {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.btn-icon:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
 /* Settings panel */
 .settings-panel {
-  display: flex;
+  display: none;
   flex-direction: column;
   gap: var(--space-md);
   padding: var(--space-lg);
   background-color: var(--color-surface);
   border-radius: var(--radius-lg);
   min-width: 16rem;
+}
+
+.settings-panel.is-open {
+  display: flex;
 }
 
 .settings-title {

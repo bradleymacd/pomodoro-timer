@@ -16,6 +16,8 @@ const breakInput = document.getElementById('break-duration-input');
 const taskInput = document.getElementById('task-input');
 const addTaskBtn = document.getElementById('add-task-btn');
 const taskList = document.getElementById('task-list');
+const settingsToggleBtn = document.getElementById('settings-toggle-btn');
+const settingsPanel = document.querySelector('.settings-panel');
 
 let tasks = [];
 
@@ -124,6 +126,12 @@ function applySettings() {
 
 workInput.addEventListener('change', applySettings);
 breakInput.addEventListener('change', applySettings);
+
+settingsToggleBtn.addEventListener('click', () => {
+  const isOpen = settingsPanel.classList.toggle('is-open');
+  settingsToggleBtn.classList.toggle('is-active', isOpen);
+  settingsToggleBtn.setAttribute('aria-expanded', isOpen);
+});
 
 function renderTasks() {
   taskList.innerHTML = '';
