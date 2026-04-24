@@ -40,20 +40,29 @@
           <button type="button" class="btn btn-icon modal-close-btn" id="settings-close-btn" aria-label="Close settings">✕</button>
         </div>
         <section class="settings-panel" aria-label="Timer settings">
-          <div class="setting">
-            <label class="setting-label" for="work-duration-input">Work (minutes)</label>
-            <input class="setting-input" type="number" id="work-duration-input"
-                   min="1" max="60" value="25">
+          <div class="setting-group">
+            <div class="setting">
+              <label class="setting-label" for="work-duration-input">Work (minutes)</label>
+              <input class="setting-input" type="number" id="work-duration-input"
+                     min="1" max="60" value="25">
+            </div>
+            <p class="setting-error" id="work-duration-error" hidden>Enter a number between 1 and 60.</p>
           </div>
-          <div class="setting">
-            <label class="setting-label" for="break-duration-input">Short Break (minutes)</label>
-            <input class="setting-input" type="number" id="break-duration-input"
-                   min="1" max="60" value="5">
+          <div class="setting-group">
+            <div class="setting">
+              <label class="setting-label" for="break-duration-input">Short Break (minutes)</label>
+              <input class="setting-input" type="number" id="break-duration-input"
+                     min="1" max="60" value="5">
+            </div>
+            <p class="setting-error" id="break-duration-error" hidden>Enter a number between 1 and 60.</p>
           </div>
-          <div class="setting">
-            <label class="setting-label" for="long-break-duration-input">Long Break (minutes)</label>
-            <input class="setting-input" type="number" id="long-break-duration-input"
-                   min="1" max="60" value="15">
+          <div class="setting-group">
+            <div class="setting">
+              <label class="setting-label" for="long-break-duration-input">Long Break (minutes)</label>
+              <input class="setting-input" type="number" id="long-break-duration-input"
+                     min="1" max="60" value="15">
+            </div>
+            <p class="setting-error" id="long-break-duration-error" hidden>Enter a number between 1 and 60.</p>
           </div>
           <div class="setting">
             <label class="setting-label" for="auto-switch-toggle">Auto-switch modes</label>

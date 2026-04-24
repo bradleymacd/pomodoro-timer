@@ -15,6 +15,9 @@ const resetBtn = document.getElementById('reset-btn');
 const workInput = document.getElementById('work-duration-input');
 const breakInput = document.getElementById('break-duration-input');
 const longBreakInput = document.getElementById('long-break-duration-input');
+const workError = document.getElementById('work-duration-error');
+const breakError = document.getElementById('break-duration-error');
+const longBreakError = document.getElementById('long-break-duration-error');
 const tabWork = document.getElementById('tab-work');
 const tabBreak = document.getElementById('tab-break');
 const tabLongBreak = document.getElementById('tab-long-break');
@@ -146,10 +149,11 @@ startPauseBtn.addEventListener('click', () => {
 
 resetBtn.addEventListener('click', reset);
 
-function validateInput(input, min, max) {
+function validateInput(input, errorEl, min, max) {
   const value = Number(input.value);
   const valid = value >= min && value <= max;
   input.classList.toggle('is-invalid', !valid);
+  errorEl.hidden = valid;
   return valid;
 }
 
@@ -158,9 +162,9 @@ function applySettings() {
   const breakMinutes = Number(breakInput.value);
   const longBreakMinutes = Number(longBreakInput.value);
 
-  if (validateInput(workInput, 1, 60)) workDuration = workMinutes * 60;
-  if (validateInput(breakInput, 1, 60)) breakDuration = breakMinutes * 60;
-  if (validateInput(longBreakInput, 1, 60)) longBreakDuration = longBreakMinutes * 60;
+  if (validateInput(workInput, workError, 1, 60)) workDuration = workMinutes * 60;
+  if (validateInput(breakInput, breakError, 1, 60)) breakDuration = breakMinutes * 60;
+  if (validateInput(longBreakInput, longBreakError, 1, 60)) longBreakDuration = longBreakMinutes * 60;
 
   if (!isRunning) {
     timeRemaining = durationFor(currentMode);

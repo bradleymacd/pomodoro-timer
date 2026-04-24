@@ -301,6 +301,18 @@ body {
   color: var(--color-work);
 }
 
+.setting-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.setting-error {
+  font-size: var(--font-size-sm);
+  color: var(--color-work);
+  padding-left: var(--space-xs);
+}
+
 /* Task panel */
 .task-panel {
   display: flex;
