@@ -1,5 +1,6 @@
 let workDuration = 25 * 60;
 let breakDuration = 5 * 60;
+let longBreakDuration = 15 * 60;
 
 let timeRemaining = workDuration;
 let isRunning = false;
@@ -13,6 +14,11 @@ const startPauseBtn = document.getElementById('start-pause-btn');
 const resetBtn = document.getElementById('reset-btn');
 const workInput = document.getElementById('work-duration-input');
 const breakInput = document.getElementById('break-duration-input');
+const longBreakInput = document.getElementById('long-break-duration-input');
+const tabWork = document.getElementById('tab-work');
+const tabBreak = document.getElementById('tab-break');
+const tabLongBreak = document.getElementById('tab-long-break');
+const allTabs = [tabWork, tabBreak, tabLongBreak];
 const taskInput = document.getElementById('task-input');
 const addTaskBtn = document.getElementById('add-task-btn');
 const taskList = document.getElementById('task-list');
@@ -28,14 +34,27 @@ function formatTime(totalSeconds) {
 }
 
 function durationFor(mode) {
-  return mode === 'work' ? workDuration : breakDuration;
+  if (mode === 'work') return workDuration;
+  if (mode === 'long-break') return longBreakDuration;
+  return breakDuration;
 }
+
+const modeLabels = { work: 'Work', break: 'Short Break', 'long-break': 'Long Break' };
+const tabForMode = { work: tabWork, break: tabBreak, 'long-break': tabLongBreak };
 
 function render() {
   timeDisplay.textContent = formatTime(timeRemaining);
-  modeIndicator.textContent = currentMode === 'work' ? 'Work' : 'Break';
+  modeIndicator.textContent = modeLabels[currentMode];
   app.dataset.mode = currentMode;
   startPauseBtn.textContent = isRunning ? 'Pause' : 'Start';
+
+  allTabs.forEach(tab => {
+    tab.classList.remove('is-active');
+    tab.setAttribute('aria-selected', 'false');
+  });
+  const activeTab = tabForMode[currentMode];
+  activeTab.classList.add('is-active');
+  activeTab.setAttribute('aria-selected', 'true');
 }
 
 function playNotification() {
@@ -65,9 +84,17 @@ function flashBackground() {
   }, { once: true });
 }
 
+function setMode(mode) {
+  pause();
+  currentMode = mode;
+  timeRemaining = durationFor(currentMode);
+  render();
+}
+
 function switchMode() {
   playNotification();
   flashBackground();
+  // auto-switch only toggles between work and short break
   currentMode = currentMode === 'work' ? 'break' : 'work';
   timeRemaining = durationFor(currentMode);
 }
@@ -115,8 +142,10 @@ resetBtn.addEventListener('click', reset);
 function applySettings() {
   const workMinutes = Number(workInput.value);
   const breakMinutes = Number(breakInput.value);
+  const longBreakMinutes = Number(longBreakInput.value);
   if (workMinutes >= 1 && workMinutes <= 60) workDuration = workMinutes * 60;
   if (breakMinutes >= 1 && breakMinutes <= 60) breakDuration = breakMinutes * 60;
+  if (longBreakMinutes >= 1 && longBreakMinutes <= 60) longBreakDuration = longBreakMinutes * 60;
 
   if (!isRunning) {
     timeRemaining = durationFor(currentMode);
@@ -126,6 +155,11 @@ function applySettings() {
 
 workInput.addEventListener('change', applySettings);
 breakInput.addEventListener('change', applySettings);
+longBreakInput.addEventListener('change', applySettings);
+
+tabWork.addEventListener('click', () => setMode('work'));
+tabBreak.addEventListener('click', () => setMode('break'));
+tabLongBreak.addEventListener('click', () => setMode('long-break'));
 
 settingsToggleBtn.addEventListener('click', () => {
   const isOpen = settingsPanel.classList.toggle('is-open');
