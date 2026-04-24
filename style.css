@@ -365,9 +365,10 @@ body {
 
 /* Task panel */
 .task-panel {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  column-gap: var(--space-sm);
+  row-gap: var(--space-md);
   padding: var(--space-lg);
   background-color: var(--color-surface);
   border-radius: var(--radius-lg);
@@ -375,6 +376,7 @@ body {
 }
 
 .task-panel-title {
+  grid-column: 1 / -1;
   font-size: var(--font-size-md);
   color: var(--color-text-muted);
   text-transform: uppercase;
@@ -382,13 +384,12 @@ body {
   font-weight: 600;
 }
 
+/* dissolve the wrapper so input and button become direct grid items */
 .task-input-row {
-  display: flex;
-  gap: var(--space-sm);
+  display: contents;
 }
 
 .task-input {
-  flex: 1;
   font-family: var(--font-body);
   font-size: var(--font-size-md);
   font-weight: 500;
@@ -415,6 +416,7 @@ body {
 }
 
 .task-list {
+  grid-column: 1;
   list-style: none;
   display: flex;
   flex-direction: column;
