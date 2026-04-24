@@ -296,6 +296,11 @@ body {
   border-color: var(--color-accent);
 }
 
+.setting-input.is-invalid {
+  border-color: var(--color-work);
+  color: var(--color-work);
+}
+
 /* Task panel */
 .task-panel {
   display: flex;

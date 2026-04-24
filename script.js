@@ -146,13 +146,21 @@ startPauseBtn.addEventListener('click', () => {
 
 resetBtn.addEventListener('click', reset);
 
+function validateInput(input, min, max) {
+  const value = Number(input.value);
+  const valid = value >= min && value <= max;
+  input.classList.toggle('is-invalid', !valid);
+  return valid;
+}
+
 function applySettings() {
   const workMinutes = Number(workInput.value);
   const breakMinutes = Number(breakInput.value);
   const longBreakMinutes = Number(longBreakInput.value);
-  if (workMinutes >= 1 && workMinutes <= 60) workDuration = workMinutes * 60;
-  if (breakMinutes >= 1 && breakMinutes <= 60) breakDuration = breakMinutes * 60;
-  if (longBreakMinutes >= 1 && longBreakMinutes <= 60) longBreakDuration = longBreakMinutes * 60;
+
+  if (validateInput(workInput, 1, 60)) workDuration = workMinutes * 60;
+  if (validateInput(breakInput, 1, 60)) breakDuration = breakMinutes * 60;
+  if (validateInput(longBreakInput, 1, 60)) longBreakDuration = longBreakMinutes * 60;
 
   if (!isRunning) {
     timeRemaining = durationFor(currentMode);
