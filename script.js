@@ -31,6 +31,24 @@ function render() {
   startPauseBtn.textContent = isRunning ? 'Pause' : 'Start';
 }
 
+function playNotification() {
+  const ctx = new AudioContext();
+  const oscillator = ctx.createOscillator();
+  const gain = ctx.createGain();
+
+  oscillator.connect(gain);
+  gain.connect(ctx.destination);
+
+  oscillator.type = 'sine';
+  oscillator.frequency.setValueAtTime(880, ctx.currentTime);
+
+  gain.gain.setValueAtTime(0.3, ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5);
+
+  oscillator.start(ctx.currentTime);
+  oscillator.stop(ctx.currentTime + 0.5);
+}
+
 function flashBackground() {
   document.body.classList.remove('flash');
   void document.body.offsetWidth; // force reflow so the animation replays
@@ -41,6 +59,7 @@ function flashBackground() {
 }
 
 function switchMode() {
+  playNotification();
   flashBackground();
   currentMode = currentMode === 'work' ? 'break' : 'work';
   timeRemaining = durationFor(currentMode);
